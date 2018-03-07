@@ -1,0 +1,14 @@
+init_config:
+ 
+instances:
+  # This check is for monitoring and reporting metrics on cf backup
+  #
+  # WARNING: Ensure the user account running the Agent (typically dd-agent) has read
+  # access to the monitored directory and files.
+  #
+  # Instances take the following parameters:
+  # "directory" - string, the directory to monitor. Required
+  # "name" - string, backup service name. Required
+ 
+  - directory: "/root/backup/mariadb"
+    name: "mariadb"
