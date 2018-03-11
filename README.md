@@ -1,40 +1,68 @@
 # datadog-backup-check
 
-Use Datadog custom check feature to automatically check if backups are handled properly and generate an alarm if backup can not be done
+Use Datadog custom check feature to automatically check if backups are handled properly and generate an alarm if back up can not be done
 
 Reference : http://docs.datadoghq.com/guides/agent_checks/
 
-1. Copy 'backup_check.yaml' file to '/etc/dd-agent/conf.d' folder
+## Configure directory checking backup
 
-  * dd-agent가 해당 폴더에 접근할 수 있도록 권한이 있어야 함.
+1. Create "backup_check.yaml" file to the "/etc/dd-agent/conf.d" directory
 
-  * /root, /root/backup/, /root/backup/cf-ccdb 에 755 권한이 있어야 함.
+2. Configure "backup_check.yaml"
+```
+init_config:
+ 
+instances:
+  # This check is for monitoring and reporting metrics on cf backup
+  #
+  # WARNING: Ensure the user account running the Agent (typically dd-agent) has read
+  # access to the monitored directory and files.
+  #
+  # Instances take the following parameters:
+  # "directory" - string, the directory to monitor. Required
+  # "name" - string, backup service name. Required
+ 
+  - directory: "/root/backup/mariadb"
+    name: "mariadb"
+```
 
-2. /etc/dd-agent/checks.d 폴더에 backup_check.py 파일 복사
+* dd-agent should have permission to access the folder
 
-3. datadog agent 재시작
+* Backup folder should have an 755 authority
+
+## Copy backup check script file
+
+Copy the "backup_check.py" file to the "/etc/dd-agent/checks.d" folder
+
+## Datadog agent restart
+```
 sudo /etc/init.d/datadog-agent restart
+```
 
-4. check
+## Datadog agent info check
+```
 sudo /etc/init.d/datadog-agent info
+```
 
-5. Create Monitor in Datadog
+## Create Monitor in Datadog
 
-  5.1. Monitos > New Monitor > Custom check
+1. Monitos > New Monitor > Custom check
 
-  5.2. Configure Datadog
-  ```
-  Pick a Custom Check : backup.state
-  Pick monitor scope : host:HOST_NAME
-  Set alert conditions
-    Status: Critical => 1
-    Status: OK => 1
-  ```
+2. Configure Datadog
+```
+Pick a Custom Check : backup.state
+Pick monitor scope : host:HOST_NAME
+Set alert conditions
+  Status: Critical => 1
+  Status: OK => 1
+```
   
-6. 체크 항목
-6.1. 파일 유무
-현재 날짜로 백업된 파일이 있는지 체크
-6.2. 파일 크기
-파일 크기가 0 이상인지 체크
-6.3. 파일 상태
-파일 상태에 이상이 없는지 체크
+## Check list
+
+1. Whether file is backed up or not
+
+
+2. File size
+
+
+3. File status
