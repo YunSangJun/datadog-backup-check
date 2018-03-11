@@ -34,6 +34,13 @@ instances:
 
 Copy the "backup_check.py" file to the "/etc/dd-agent/checks.d" folder
 
+This script will check the followings.
+```
+1. Whether file is backed up or not
+2. File size
+3. File status
+```
+
 ## Datadog agent restart
 ```
 sudo /etc/init.d/datadog-agent restart
@@ -57,12 +64,3 @@ Set alert conditions
   Status: OK => 1
 ```
   
-## Check list
-
-1. Whether file is backed up or not
-
-
-2. File size
-
-
-3. File status
