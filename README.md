@@ -1,6 +1,6 @@
 # datadog-backup-check
 
-Use Datadog custom check feature to automatically check if backups are handled properly and generate an alarm if back up can not be done
+Use Datadog custom check feature to automatically check if backups are handled properly and generate an alarm if backup can not be done
 
 Reference : http://docs.datadoghq.com/guides/agent_checks/
 
@@ -36,7 +36,7 @@ Copy the "backup_check.py" file to the "/etc/dd-agent/checks.d" folder
 
 This script will check the followings.
 ```
-1. Whether file is backed up or not
+1. Whether backup is successful or not
 2. File size
 3. File status
 ```
@@ -58,9 +58,21 @@ sudo /etc/init.d/datadog-agent info
 2. Configure Datadog
 ```
 Pick a Custom Check : backup.state
+
 Pick monitor scope : host:HOST_NAME
+
 Set alert conditions
   Status: Critical => 1
+  Status: Warning => 1
   Status: OK => 1
+  
+Say what's happening
+{{#is_alert}}
+The backup is not successful.
+{{/is_alert}}
+{{#is_alert_recovery}}
+The backup is successful.
+{{/is_alert_recovery}}
+Notify: @Something
 ```
   
